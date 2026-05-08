@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>amadeonesi - archivos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="amadeonesi">
+        <link rel="manifest" href="manifest.json">
+
+        <link rel="stylesheet" href="./src/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>archivos</h1>
+            <a href="./index.html">
+            <div class="back">&larr;</div>
+            </a>
+            <div class="color-picker">
+                <div class="swatch" data-color="orangered" data-hover="rgb(255,94,0)"  style="background:orangered"></div>
+                <div class="swatch" data-color="#1a8cff"   data-hover="#4da6ff"        style="background:#1a8cff"></div>
+                <div class="swatch" data-color="#7c3aed"   data-hover="#9d5bf5"        style="background:#7c3aed"></div>
+                <div class="swatch" data-color="#16a34a"   data-hover="#22c55e"        style="background:#16a34a"></div>
+            </div>
+            <p>Esta es una lista de archivos que pueden servirte. Estan categorizados dependiendo su sistema y/o arquitectura</p>
+            <br>
+            <p>Programas para Windows ARM32/ARMv7 (Win RT y 10)</p>
+            <a href="./src/files/Paint.NET.zip">
+                <div class="tile"><img src="./src/file.png"><p>Paint.NET.zip</p></div>
+            </a>
+            <a href="./src/files/vcredist_arm.exe">
+                <div class="tile"><img src="./src/file.png"><p>vcredist_arm</p></div>
+            </a>
+            <a href="./src/files/MinivMac.zip">
+                <div class="tile"><img src="./src/file.png"><p>MinivMac.zip</p></div>
+            </a>
+            <a href="./src/files/Otter.zip">
+                <div class="tile"><img src="./src/file.png"><p>Otter.zip</p></div>
+            </a>
+            <a href="./src/files/Unison.zip">
+                <div class="tile"><img src="./src/file.png"><p>Unison.zip</p></div>
+            </a>
+            <a href="./src/files/prboom.7z">
+                <div class="tile"><img src="./src/file.png"><p>prboom.7z</p></div>
+            </a>
+        </div>
+
+        <script>
+            const root = document.documentElement;
+            const swatches = document.querySelectorAll('.swatch');
+
+            function setColor(color, hover) {
+                root.style.setProperty('--tile-color', color);
+                root.style.setProperty('--tile-hover', hover);
+                swatches.forEach(s => s.classList.toggle('active', s.dataset.color === color));
+                localStorage.setItem('tileColor', color);
+                localStorage.setItem('tileHover', hover);
+            }
+
+            const saved = localStorage.getItem('tileColor');
+            if (saved) setColor(saved, localStorage.getItem('tileHover'));
+            else swatches[0].classList.add('active');
+
+            swatches.forEach(s => s.addEventListener('click', () => setColor(s.dataset.color, s.dataset.hover)));
+        </script>
+    </body>
+</html>
