@@ -1,0 +1,188 @@
+            @font-face {
+                font-family: "Segoe UI Local";
+                src: url(./segoe-ui.ttf);
+            }
+            * {
+                animation: everything-else 0.75s ease;
+            }
+
+            :root {
+                --tile-color: orangered;
+                --tile-hover: rgb(255, 94, 0);
+            }
+
+            body {
+                font-family: 'Segoe UI', "Segoe UI Local";
+                color: #999;
+                background-color: #000;
+                margin: 0;
+                padding: 0;
+                overscroll-behavior: none;
+
+                
+            }
+            a {
+                color: #fff;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .container {
+                margin: 0 auto;
+                padding: 0 10px;
+            }
+
+            h1 {
+                font-family: 'Segoe UI', sans-serif;
+                font-weight: 200;
+                font-size: 52px;
+                margin: 0 0 8px 0;
+                color: #fff;
+            }
+            p {
+                font-family: 'Segoe UI', sans-serif;
+                z-index: 4;
+            }
+
+            .color-picker {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 12px;
+                color: #fff;
+            }
+            .swatch {
+                width: 22px;
+                height: 22px;
+                cursor: pointer;
+                border: 2px solid transparent;
+                transition: border 0.2s;
+            }
+            .swatch.active { border-color: #fff; }
+
+            .tiles {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .tile {
+                background-color: var(--tile-color);
+                width: 115px;
+                height: 115px;
+                position: relative;
+                transition: background-color 0.3s ease;
+                animation: tile3d 1.3s ease;
+                flex-shrink: 0;
+                color: #fff;
+            }
+            .tile:hover  { background-color: var(--tile-hover); }
+            .tile:active { background-color: var(--tile-color); }
+            .tile p {
+                text-align: left;
+                position: absolute;
+                bottom: 0;
+                margin: 0 0 4px 4px;
+            }
+            .tile img { width: 115px; height: 115px; transition: 0.3s ease; }
+
+            .tile-long {
+                background-color: var(--tile-color);
+                width: 240px;
+                height: 115px;
+                position: relative;
+                transition: background-color 0.3s ease;
+                animation: tile-long-3d 0.75s ease;
+                flex-shrink: 0;
+                color: #fff;
+            }
+            .tile-long:hover  { background-color: var(--tile-hover); }
+            .tile-long:active { background-color: var(--tile-color); }
+            .tile-long p {
+                text-align: left;
+                position: absolute;
+                bottom: 0;
+                margin: 0 0 4px 4px;
+            }
+            .tile-long img { width: 240px; height: 115px; transition: 0.3s ease; animation: tile-long-3d 0.75s ease;z-index: 3;}
+
+            @keyframes tile3d {
+                0%   { opacity: 0.25; transform: rotate3d(0, 1, 0, 90deg);}    
+                100% { opacity: 1;    transform: rotate3d(0, 0, 0, 0);}
+            }
+            @keyframes everything-else {
+                0% { opacity: 0;transform: scale(0.9);}
+                100% {opacity: 1;transform: scale(1);}
+            }
+            @keyframes tile-long-3d {
+                0%   { opacity: 0.25; transform: rotate3d(0, 1, 0, 90deg);}
+                10%  { transform: rotate3d(0, 1, 0, 90deg); width: 110px; }
+                100% { opacity: 1;    transform: rotate3d(0, 0, 0, 0);}
+            }
+            @keyframes fadein {
+                0% {opacity: 0;}
+                100% {opacity: 1;}
+                
+            }
+            .back {
+                width: 35px;
+                height: 35px;
+                border: solid 2px white;
+                background-color: #000;
+                border-radius: 50%;
+                margin-bottom: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 25px;
+                position: relative;
+                transition: 0.3s ease;
+            }
+            .back:hover {background-color: #222222;}
+            .back:active {background-color: #313131; transform: scale(0.95);}
+
+            
+            .tableview {
+                width: 100%;
+                height: 40px;
+                border: solid 2px white;
+                background-color: #000;
+                display: flex;
+                align-items: center;
+                transition: 0.3s ease;
+                margin-bottom: 10px;
+            }
+            .tableview p {
+                margin-left: 5px;
+                color: #fff;
+            }
+            .tableview img {
+                width: 30px;
+                height: 30px;
+                margin-left: 5px;
+            }
+            .tableview:hover {background-color: #222222;}
+            .tableview:active {background-color: #313131; transform: scale(0.98);}
+
+            a.full-width {
+            display: block;
+            width: 100%;
+            }
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+th {
+  background-color: #141414;
+  color: white;
+}
+th, td {
+  border: 1px solid #313131;
+  padding: 8px 12px;
+  text-align: left;
+}
+tr:nth-child(even) {
+  background-color: #0a0a0a;
+}
+tr:hover {
+  background-color: rgba(0,0,0,0.05);
+}
