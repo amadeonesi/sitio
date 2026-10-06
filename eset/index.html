@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peña estudiantil</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <style>
+        .flyer-share-button {
+            position: relative;
+            top: auto;
+            right: auto;
+            width: 150px;
+            height: 45px;
+            margin: 16px auto 0;
+            padding: 5px;
+            float: none;
+            transform-origin: center center;
+            border: 0;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+
+        .flyer-share-button::before {
+            position: absolute;
+            inset: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="lg-btn"><a href="../" aria-label="Volver" draggable="false"><img src="./left-chevron.svg" alt=""></a></div>
+    <div class="lg-btn-long">
+        <a href="#" id="share-qr" aria-label="Compartir flyer" draggable="false">↗</a>
+        <a id="menu-toggle" href="#" aria-label="Más opciones" aria-haspopup="menu" aria-expanded="false" draggable="false">⋯</a>
+    </div>
+    <div class="lg-menu" id="options-menu" role="menu" aria-label="Más opciones" hidden>
+        <button type="button" role="menuitem" id="menu-share">↗ Compartir</button>
+        <button type="button" role="menuitem" id="menu-copy">⧉ Copiar link</button>
+        <button type="button" role="menuitem" id="menu-close">× Cerrar</button>
+    </div>
+    <h1>Peña de l@s estudiantes solidari@s</h1>
+    <p>"Somos memoria, somos identidad. Todos juntos diversidad."</p>
+    <br>
+    <br>
+    <h2>¿Por qué se hace esta peña?</h2>
+    <p>El 8 de octubre de 2006, un grupo de alumnos y docentes del Colegio Ecos de la Ciudad de Buenos Aires volvia de un viaje solidario en la provincia de Chaco, un camion impacto al micro con el grupo, hubieron 12 fallecidos y 40 heridos.</p>
+    <p>Esta peña se hace para conmemorar el Dia Nacional del Estudiante Solidario, el cual es el 8 de octubre.</p>
+    <br>
+    <br>
+    <h1>Información</h1>
+    <br>
+    <h2>Sábado 24/10</h2>
+    <p>De 13 a 17 h</p>
+    <br>
+    <h2>📍︎ ESET UNQ</h2>
+    <p>Av. Republica de Francia 1714</p>
+    <img src="./flyer.jpeg" alt="Flyer de la peña" style="display:block; width:min(80vw, 500px); max-width:100%; height:auto; margin:24px auto 0;border-radius: 8px;box-shadow: 0 10px 15px rgba(0,0,0,.2);">
+    <button type="button" class="lg-btn-long flyer-share-button" id="share-flyer">Compartir</button>
+    <footer>Amadeo Nesi ©2026</footer>
+
+    <script>
+        const menuToggle = document.querySelector("#menu-toggle");
+        const optionsMenu = document.querySelector("#options-menu");
+        const longButton = document.querySelector(".lg-btn-long");
+        const shareButton = document.querySelector("#menu-share");
+        const copyButton = document.querySelector("#menu-copy");
+        const directShareButton = document.querySelector("#share-qr");
+        const flyerShareButton = document.querySelector("#share-flyer");
+        let flyerFile = null;
+
+        fetch("./flyer.jpeg")
+            .then((response) => {
+                if (!response.ok) throw new Error("No se pudo cargar flyer.jpeg");
+                return response.blob();
+            })
+            .then((blob) => {
+                flyerFile = new File([blob], "flyer.jpeg", { type: blob.type || "image/jpeg" });
+            })
+            .catch((error) => console.error("No se pudo cargar el flyer.", error));
+
+        const closeMenu = () => {
+            optionsMenu.hidden = true;
+            menuToggle.setAttribute("aria-expanded", "false");
+            longButton.classList.remove("menu-active");
+        };
+
+        const shareFlyer = () => {
+            if (!navigator.share) {
+                window.alert("Este navegador no admite el menú para compartir archivos. Abre la página en Safari o Chrome desde una conexión HTTPS.");
+                return;
+            }
+            if (!flyerFile) {
+                window.alert("El flyer todavía se está cargando. Inténtalo de nuevo en un momento.");
+                return;
+            }
+
+            const shareData = { files: [flyerFile], title: "Flyer de la peña" };
+            if (!navigator.canShare?.(shareData)) {
+                window.alert("Este navegador no permite compartir archivos desde esta página. Prueba con Safari o Chrome en una conexión HTTPS.");
+                return;
+            }
+
+            navigator.share(shareData).catch((error) => {
+                if (error.name !== "AbortError") window.alert("No se pudo compartir el código QR.");
+            });
+        };
+
+        const copyPageUrl = async () => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+            } catch {
+                const copyField = document.createElement("textarea");
+                copyField.value = window.location.href;
+                copyField.style.position = "fixed";
+                copyField.style.opacity = "0";
+                document.body.append(copyField);
+                copyField.select();
+                document.execCommand("copy");
+                copyField.remove();
+            }
+            closeMenu();
+        };
+
+        menuToggle.addEventListener("click", (event) => {
+            event.preventDefault();
+            optionsMenu.hidden = !optionsMenu.hidden;
+            menuToggle.setAttribute("aria-expanded", String(!optionsMenu.hidden));
+            longButton.classList.toggle("menu-active", !optionsMenu.hidden);
+        });
+        document.addEventListener("click", (event) => {
+            if (!optionsMenu.contains(event.target) && !menuToggle.contains(event.target)) closeMenu();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeMenu();
+        });
+        document.querySelector("#menu-close").addEventListener("click", closeMenu);
+        directShareButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            shareFlyer();
+        });
+        flyerShareButton.addEventListener("click", () => {
+            shareFlyer();
+        });
+        shareButton.addEventListener("click", () => {
+            closeMenu();
+            shareFlyer();
+        });
+        copyButton.addEventListener("click", copyPageUrl);
+
+        document.querySelectorAll(".lg-btn, .lg-btn-long").forEach((button) => {
+            let activePointerId = null;
+            let originalWidth = "";
+            let originalHeight = "";
+            let startX = 0;
+            let startY = 0;
+            let startWidth = 0;
+            let startHeight = 0;
+            let holdTimer = null;
+            let isStretching = false;
+            let suppressClick = false;
+            let suppressClickTimer = null;
+
+            const stopHolding = (event) => {
+                if (activePointerId === null) return;
+                if (event?.pointerId !== undefined && event.pointerId !== activePointerId) return;
+
+                const shouldSuppressClick = isStretching && event?.type === "pointerup" && button.contains(event.target);
+                clearTimeout(holdTimer);
+                holdTimer = null;
+                activePointerId = null;
+                isStretching = false;
+                button.classList.remove("is-stretching");
+                button.style.width = originalWidth;
+                button.style.height = originalHeight;
+
+                if (shouldSuppressClick) {
+                    suppressClick = true;
+                    clearTimeout(suppressClickTimer);
+                    suppressClickTimer = setTimeout(() => { suppressClick = false; }, 700);
+                }
+            };
+
+            document.addEventListener("click", (event) => {
+                if (!suppressClick || !button.contains(event.target)) return;
+                suppressClick = false;
+                clearTimeout(suppressClickTimer);
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, true);
+            button.addEventListener("contextmenu", (event) => {
+                if (isStretching) event.preventDefault();
+            });
+
+            button.addEventListener("pointerdown", (event) => {
+                if (event.button !== 0 || activePointerId !== null) return;
+
+                activePointerId = event.pointerId;
+                startX = event.clientX;
+                startY = event.clientY;
+                originalWidth = button.style.width;
+                originalHeight = button.style.height;
+                const { width, height } = button.getBoundingClientRect();
+                startWidth = width;
+                startHeight = height;
+                holdTimer = setTimeout(() => {
+                    if (activePointerId !== event.pointerId) return;
+                    isStretching = true;
+                    button.classList.add("is-stretching");
+                    button.style.width = `${startWidth}px`;
+                    button.style.height = `${startHeight}px`;
+                }, 300);
+            });
+
+            document.addEventListener("pointermove", (event) => {
+                if (event.pointerId !== activePointerId) return;
+
+                const deltaX = event.clientX - startX;
+                const deltaY = event.clientY - startY;
+                if (!isStretching) {
+                    if (Math.hypot(deltaX, deltaY) > 8) {
+                        clearTimeout(holdTimer);
+                        activePointerId = null;
+                    }
+                    return;
+                }
+
+                event.preventDefault();
+                const divisor = 8 + Math.hypot(deltaX, deltaY) / 10;
+                button.style.width = `${Math.max(16, startWidth + deltaX / divisor)}px`;
+                button.style.height = `${Math.max(16, startHeight + deltaY / divisor)}px`;
+            });
+
+            document.addEventListener("touchmove", (event) => {
+                if (isStretching) event.preventDefault();
+            }, { passive: false });
+            document.addEventListener("selectstart", (event) => {
+                if (isStretching) event.preventDefault();
+            });
+
+            document.addEventListener("pointerup", stopHolding);
+            document.addEventListener("pointercancel", stopHolding);
+            window.addEventListener("blur", () => stopHolding());
+        });
+    </script>
+</body>
+</html>

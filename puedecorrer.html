@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>¿puede correr doom?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="amadeonesi">
+        <link rel="manifest" href="manifest.json">
+
+        <link rel="stylesheet" href="./src/style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>¿puede correr doom? - fase 2</h1>
+            <a class="fix" href="./index.html">
+            <div class="back">&larr;</div>
+            </a>
+            <p>hace unos meses, arrancó el camino largo que fue este proyecto. paso de ser un "jaja que meme gracioso" a, lo que probablemente sea, el proyecto mas grande en el que haya participado (por ahora).</p>
+            <p>en la fase 1, tratamos lo mas basico: conseguir ports de doom para dispositivos raros (ejemplos: Apple Watch, Windows 10 de escritorio en un Nokia Lumia, una iMac del 2006, etc). en la fase 2, vamos a tratar algo mucho, mucho mas complejo: *crear* un port de Counter-Strike 1.6 tanto como para Windows 10<span style="font-size: 30px;">*</span> (con un asterisco gigante), como para el navegador (si, el mismo navegador que estas usando para ver esta pagina web).</p>
+            <br>
+            <p style="color:#c7c7c7">cabe recalcar, que use agentes IA para el desarrollo de estos ports, mas de eso adelante.</p>
+
+            <h1>parte 1: el problema</h1>
+            <p>honestamente hay 2 problemas: 1. la perdida de soporte de varios dispositivos, y 2. desarrollar los ports de Counter-Strike.</p>
+            <h1>parte 2: el desarrollo</h1>
+            <p>yo (Amadeo Nesi) empecé a trabajar en estos ports hace 2 semanas, pensando que los iba a tener listo para el primero de agosto. y aca estoy, 8/7/26, a las 12:44 AM escribiendo la documentación de todo, con 3 ventanas de OpenCode corriendo en simultaneo.</p>
+            <p>para estos ports, utilicé Xash3d (el unico "motor" de codigo abierto de GoldSrc, el cual es el motor grafico de Counter-Strike). en teoria, Xash3d corre en todo. en la realidad, Xash3d corre en todo, siempre y cuando le vendas el alma al diablo, porque desarrollar un port de Xash3d es posiblemente una de las cosas mas dificiles que quise hacer en mi vida. por eso tuve que resultar a los agentes IA (especialmente DeepSeek V4 Flash Free en OpenCode) para desarrollar este proyecto. y buenas noticias: la colaboración humano-algoritmo funcionó, y ahora tenemos tres ports funcionales: Counter-Strike en Windows 10<span style="font-size: 30px;">*</span>, Counter-Strike en la web, y DOOM en la web.</p>
+            
+            <p>como funcionan los ports:</p>
+            <p>Counter-Strike en la web: portea Xash3d a la web usando WASM (WebAssembly, te permite correr codigo compilado para la web) y Emscripten (cadena de herramientas para compilar codigo C/C++ a WASM). utiliza un WebSocket (una forma de comunicar datos en tiempo real entre el cliente y el servidor), de esta forma, el cliente puede ver el juego en 3d, y el servidor se encarga de la logica.</p>
+            <p>DOOM en la web: portea</p>
+        </div>
+    </body>
+</html>
